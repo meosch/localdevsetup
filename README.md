@@ -11,10 +11,9 @@ You can specify the name of the new environment on the command line or you will 
 or
     setup-new-localdev.sh  nameof new project
 
-I am using this with parts of: Drude (**Dru**pal **D**ocker **E**nvironment)
-Docker and Docker Compose based environment for Drupal. https://github.com/blinkreaction/drude
+I am using this with parts of [Drude (**Dru**pal **D**ocker **E**nvironment)](https://github.com/blinkreaction/drude Drude GitHub Project) which is a Docker and Docker Compose based environment for Drupal. 
 
-The Drude is more aimed at Windows and Mac OSes as that is what Blink Reaction is using. On these two operating systems Docker must be run inside a Linux virtual machine. This adds overhead. If I understand things correctly because Blink Reaction does not have people working on Linux, Drude is not highly tested on Linux.  I wanted something that work "just work" on Ubuntu Linux. I do heavily use the Drude dsh command which you should install.
+The Drude is more aimed at Windows and Mac OSes as that is what Blink Reaction is using. On these two operating systems Docker must be run inside a Linux virtual machine. This adds overhead. If I understand things correctly because Blink Reaction does not have people working on Linux, Drude is not highly tested on Linux.  I wanted something that work "just work" on Ubuntu Linux. I do heavily use the Drude **dsh** command which you should install.
 
 ## Install dsh (Drude Shell Helper)
 
