@@ -166,10 +166,15 @@ createandpermissionfolders(){
   echo -e "${yellow}>>>${NC} Next I will set as needed the owner, group and permissions on files and folders."
   echo -e "${yellow}>>>${NC} You will be asked for your sudo password unless you have recently used it."
   echo ""
+# Set the current user as owner and docker as group for our environment folder.
   run_sudo_command chown -R ${USER}:docker ${environmentname}
+# Set the group sticky bit so that any new files or folders belong to the group docker set above.  
   run_sudo_command chmod g+s -R ${environmentname}
+# Set the current user as owner and docker as group for our webroot.
   run_sudo_command chown -R ${USER}:docker ${environmentname}/${webroot}
+# Give the docker group write permissions for the webroot.
   run_sudo_command chmod -R g+w ${environmentname}/${webroot}
+# Set the current user as owner and docker as group for the .drude folder and files recursively.
   run_sudo_command chown -R ${USER}:docker ${environmentname}/.drude
 }
 # Configure the  docker-compose.yml with the development environment name by replacing the phrase localdevmeos in 2 places.
