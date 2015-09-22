@@ -149,6 +149,7 @@ done
 }
 # Download docker-compose.yml, .drude folder, etc.
 downloadfiles(){
+# Download docker-compose files.
   mkdir ${environmentname}
     git clone https://github.com/meosch/docker-compose-localdevmeos.git ${environmentname}
     result=$?
@@ -158,6 +159,14 @@ downloadfiles(){
       exiting
     fi
   rm -rf ${environmentname}/.git
+# Download website helper scripts
+  git clone git@github.com:meosch/websitescripts.git ${environmentname}/scripts
+  result=$?
+    if [ $result -ne 0 ]; then
+      echo -e "${yellow}>>>${NC} ${red}Something went wrong with the git cloning process."
+      echo -e "${yellow}>>>${NC} ${red}Now exiting!${NC}"
+      exiting
+    fi
 }  
 # Create needed folders, public_html and then set owner and group, plus appropriate permissions.
 createandpermissionfolders(){
@@ -167,15 +176,17 @@ createandpermissionfolders(){
   echo -e "${yellow}>>>${NC} You will be asked for your sudo password unless you have recently used it."
   echo ""
 # Set the current user as owner and docker as group for our environment folder.
-  run_sudo_command chown -R ${USER}:docker ${environmentname}
-# Set the group sticky bit so that any new files or folders belong to the group docker set above.  
+  run_sudo_command chown -R ${USER}:www-data ${environmentname}
+# Set the group sticky bit so that any new files or folders belong to the group www-data set above.  
   run_sudo_command chmod g+s -R ${environmentname}
-# Set the current user as owner and docker as group for our webroot.
-  run_sudo_command chown -R ${USER}:docker ${environmentname}/${webroot}
-# Give the docker group write permissions for the webroot.
+# Set the current user as owner and www-data as group for our webroot.
+#  run_sudo_command chown -R ${USER}:www-data ${environmentname}/${webroot}
+# Give the www-data group write permissions for the webroot.
   run_sudo_command chmod -R g+w ${environmentname}/${webroot}
+# Set the group sticky bit so that any new files or folders in the webroot belong to the group www-data set above.
+  run_sudo_command chmod g+s -R ${environmentname}/${webroot}
 # Set the current user as owner and docker as group for the .drude folder and files recursively.
-  run_sudo_command chown -R ${USER}:docker ${environmentname}/.drude
+#  run_sudo_command chown -R ${USER}:docker ${environmentname}/.drude
 }
 # Configure the  docker-compose.yml with the development environment name by replacing the phrase localdevmeos in 2 places.
 replacelocaldevmeos(){
