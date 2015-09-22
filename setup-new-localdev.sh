@@ -4,6 +4,7 @@ PS4=':${LINENO} + '
 #set -x
 # What is our webroot folder called?  docroot? httpdocs? public_html?
 webroot="public_html"
+# FIXME Add commandline option to specify the name of the webroot folder
 # END CONFIGURATION #############################
 # set yes to no ;)
 yes=0
@@ -59,49 +60,66 @@ pause(){
    read -p "$*"
 }
 informuser(){
-echo -e "This script, will setup a new local development environment folder in the current folder."
-echo "The name of the development environment can be specified on the command line."
-echo -e "To see help use the ${red}-h${NC} switch."
-if [ -n ${environmentname} ]; then
-  echo -e "The environment name is currently set to ${green}${environmentname}${NC}"
+echo -e "${yellow}>>>${NC} This script, will setup a new local development environment folder in the current folder."
+echo -e "${yellow}>>>${NC} The name of the development environment can be specified on the command line."
+echo -e "${yellow}>>>${NC} To see help use the ${red}-h${NC} switch."
+if [ ! -z ${environmentname} ]; then
+  echo -e "${yellow}>>>${NC} The environment name is currently set to ${yellow}${environmentname}${NC}"
 else
-  echo -e "The environment name is ${yellow}not${NC} set."
+  echo -e "${yellow}>>>${NC} The environment name is ${yellow}not${NC} set."
 fi
-echo -e "This script will copy and make file and folders into the new environment folder and set appropriate permissions on them. It will also configure a docker-compose.yml fill with the environment name."
-echo "This is a helper script to be used when setting up a new local development environment."
-echo "It is only need to run this script once for the initial setup."
+echo -e "${yellow}>>>${NC} The webroot folder name is set to ${yellow}${webroot}${NC}."
+echo -e "${yellow}>>>${NC} This script will copy and make file and folders into the new environment folder and set appropriate permissions on them."
+echo -e "${yellow}>>>${NC} It will also configure a ${green}docker-compose.yml${NC} fill with the environment name."
+echo -e "${yellow}>>>${NC} This is a helper script to be used when setting up a new local development environment."
+echo -e "${yellow}>>>${NC} It is only need to run this script once for the initial setup."
 #echo "If links are found instead of the files and folders to move, the script will assume you have run it before and not repeat the process."
 echo " "
 }
 # Ask the user for the name for the development environment if this was not given on the command line. This will be used for the name of the folder, container names and in the docker-compose.yml for docker-gen and also for the VirtualHost name.
 askforenvironmentname(){
   if [ -z ${environmentname} ]; then
-    echo -ne "Enter the name of the new local development environment to create."
-    read environment
+    echo -ne "${yellow}>>>${NC} ${yellow}Enter the name of the new local development environment to create: ${red}>>> ${NC}"
+    read environmentname    
+  fi
+}
+doesenvironmentexist(){
+  if [ ! -z ${environmentname} ]; then
+    if [ -d $environmentname ]; then
+     echo -e "${yellow}>>>${NC} ${red}A folder with the environment name already exists. Now exiting!${NC}"
+      exit
+    fi
   fi
 }
 switchdirctoryifgiven(){
-  if [ ! -z $environmentname ] ; then
-    cd $environmentname
-  else
+  if [ -z $environmentname ] ; then
   directoryrunfrom=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
     environmentname=$directoryrunfrom
     cd $environmentname
   fi
 }
 notwhatyouwanted(){
-echo -e "If this is not what you want hit ${red}Ctrl + C${NC} to abort this script or press the ${red}Enter${NC} key to continue."
-pause
-echo " "
+echo -e "${yellow}>>>${NC} If this is not what you want you can now abort this script. Continue?[${green}Y${NC}/${red}n${NC}]"
+#pause
+  read -r response
+response=${response,,}    # tolower
+  if [ -z $response ]; then
+    response=yes
+  fi
+  if [[ $response !=  "y" && $response != "Y"  && $response != "yes" && $response != "Yes" ]]; then
+     echo -e "${red}User aborted script! Now exiting!${NC}"
+    exit
+  fi
 }
 createyesno(){
-  echo -e -n "Should I create a new local development environment named, ${green}${environmentname}${NC}? ${red}[y/N]${NC} "
+  echo -e -n "${yellow}>>>${NC} Should I create a new local development environment named, ${yellow}${environmentname}${NC}? [${red}y${NC}/${green}N${NC}] "
   read -r response
 response=${response,,}    # tolower
   if [[ $response !=  "y" && $response != "Y"  && $response != "yes" && $response != "Yes" ]]; then
      echo -e "${red}User aborted script! Now exiting!${NC}"
     exit
   fi
+  echo ""
 }
 # function to run commands as super user. This will keep give the user
 # option to re-enter the password till they get it right or allow them
@@ -110,37 +128,58 @@ response=${response,,}    # tolower
 #  run_sudo_command [COMMANDS...] -FJH 2010.03.17
 run_sudo_command() {
 # grab the commands passed to the function and put theme in a variable for safe keeping
+echo -en "${red}"
 sudocommand=$*
 sudo $sudocommand
 # Check the exit status if it is not 0 (good) then assume that the password was not entered correctly and loop them till they get it right or cancel the running of this script.
+echo -en "${NC}"
 while [ ! $? = 0 ]; do
+# FIXME Get rid of the zenity command so that we do not have that dependence.
 zenity --question --title='Local Development Environment Setup - Attention Needed!' --text="Something is not right here. (Did you correctly enter your password? Is the Caps-Locks on?) Do you want to try to enter the password again(Yes) or exit this script(No)?"
 	if [ ! $? = 0 ]; then
+    echo -e "${yellow}>>>${NC} ${red}Exiting! User aborted the script!${NC}"
 		exit
-		else 
+		else
+		echo -en ${red}
 		sudo $sudocommand
+		echo -en "${NC}"
 	fi
+	echo -en "${NC}"
 done
 }
 # Download docker-compose.yml, .drude folder, etc.
 downloadfiles(){
   mkdir ${environmentname}
     git clone https://github.com/meosch/docker-compose-localdevmeos.git ${environmentname}
+    result=$?
+    if [ $result -ne 0 ]; then
+      echo -e "${yellow}>>>${NC} ${red}Something went wrong with the git cloning process."
+      echo -e "${yellow}>>>${NC} ${red}Now exiting!${NC}"
+      exiting
+    fi
   rm -rf ${environmentname}/.git
 }  
 # Create needed folders, public_html and then set owner and group, plus appropriate permissions.
 createandpermissionfolders(){
   mkdir ${environmentname}/${webroot}
-  run_sudo_command chown -R www-data:docker ${environmentname}/${webroot}
+  echo -e ""
+  echo -e "${yellow}>>>${NC} Next I will set as needed the owner, group and permissions on files and folders."
+  echo -e "${yellow}>>>${NC} You will be asked for your sudo password unless you have recently used it."
+  echo ""
+  run_sudo_command chown -R ${USER}:docker ${environmentname}
+  run_sudo_command chmod g+s -R ${environmentname}
+  run_sudo_command chown -R ${USER}:docker ${environmentname}/${webroot}
   run_sudo_command chmod -R g+w ${environmentname}/${webroot}
-  run_sudo_command chown -R www-data:docker ${environmentname}/.drude
+  run_sudo_command chown -R ${USER}:docker ${environmentname}/.drude
 }
 # Configure the  docker-compose.yml with the development environment name by replacing the phrase localdevmeos in 2 places.
 replacelocaldevmeos(){
   sed -i s/localdevmeos/${environmentname}/ ${environmentname}/docker-compose.yml
 }
 finished(){
-  echo "All settting up the new local development environment. Have fun storming the castle!"
+  echo ""
+  echo -e "${yellow}>>>${NC} All done setting up the new local development environment ${yellow}$environmentname${NC}."
+  echo -e "${yellow}>>>${NC} ${green}Have fun ${yellow}storming${green} the ${red}castle!${NC}"
 }
 setitup(){
   downloadfiles
@@ -152,13 +191,15 @@ setitup(){
 ### MAIN PROGRAMM ###
 if [ $yes = 1 ]; then
 askforenvironmentname
+doesenvironmentexist
 switchdirctoryifgiven
 setitup
 else
-askforenvironmentname
-switchdirctoryifgiven
 informuser
 notwhatyouwanted
+askforenvironmentname
+doesenvironmentexist
+switchdirctoryifgiven
 createyesno
 setitup
 fi
