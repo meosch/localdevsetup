@@ -9,7 +9,7 @@ Create the file /etc/dnsmasq.d/docker with the following line:
 172.17.42.1 seems to be the default ip address that the **docker0** network interface will attach to, if it is not in use. If the Docker daemon is running you can check the ip address of the **docker0** interface by running:
 
 	ip addr show dev docker0 | awk -F'[ /]*' '/inet /{print $3}'  
-\[(from Using dnsmasq to link Docker containers\)](https://blog.amartynov.ru/archives/dnsmasq-docker-service-discovery/ "Using dnsmasq to link Docker containers")
+[\(from Using dnsmasq to link Docker containers\)](https://blog.amartynov.ru/archives/dnsmasq-docker-service-discovery/ "Using dnsmasq to link Docker containers")
 
 Then restart dnsmasq with:
 	sudo service dnsmasq restart
