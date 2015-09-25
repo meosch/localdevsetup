@@ -180,7 +180,7 @@ createandpermissionfolders(){
   # Move our bash environment configuration files in to our artifical $HOME directory.
   for movethis in ".bash_aliases" ".bashrc" ".drush.bashrc" ".profile"
     do
-      if [ -f $movethis ]; then
+      if [ -f ${environmentname}/$movethis ]; then
         mv ${environmentname}/${movethis} ${environmentname}/.home-localdev/
       fi
     done
