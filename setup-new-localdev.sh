@@ -172,6 +172,8 @@ downloadfiles(){
 createandpermissionfolders(){
   mkdir ${environmentname}/${webroot}
   mkdir ${environmentname}/mysqldata
+  mkdir -p ${environmentname}/.home-localdev/.drush
+  mv ${environmentname}/localdevmeos.aliases.drushrc.php ${environmentname}/.home-localdev/.drush/${environmentname}.aliases.drushrc.php
   echo -e ""
   echo -e "${yellow}>>>${NC} Next I will set as needed the owner, group and permissions on files and folders."
   echo -e "${yellow}>>>${NC} You will be asked for your sudo password unless you have recently used it."
