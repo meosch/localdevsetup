@@ -173,7 +173,10 @@ createandpermissionfolders(){
   mkdir ${environmentname}/${webroot}
   mkdir ${environmentname}/mysqldata
   mkdir -p ${environmentname}/.home-localdev/.drush
+  # Move and rename local development environment drush aliases template file for the new environment.
   mv ${environmentname}/localdevmeos.aliases.drushrc.php ${environmentname}/.home-localdev/.drush/${environmentname}.aliases.drushrc.php
+  # Move and rename the drush aliases file template for the new environment for the docker host, but not if it already exists.
+  mv -n ${environmentname}/host.aliases.drushrc.php ~/.drush/${environmentname}.aliases.drushrc.php
   echo -e ""
   echo -e "${yellow}>>>${NC} Next I will set as needed the owner, group and permissions on files and folders."
   echo -e "${yellow}>>>${NC} You will be asked for your sudo password unless you have recently used it."
