@@ -177,6 +177,15 @@ createandpermissionfolders(){
   mv ${environmentname}/localdevmeos.aliases.drushrc.php ${environmentname}/.home-localdev/.drush/${environmentname}.aliases.drushrc.php
   # Move and rename the drush aliases file template for the new environment for the docker host, but not if it already exists.
   mv -n ${environmentname}/host.aliases.drushrc.php ~/.drush/${environmentname}.aliases.drushrc.php
+  # Move our bash environment configuration files in to our artifical $HOME directory.
+  for movethis in ".bash_aliases" ".bashrc" ".drush.bashrc" ".profile"
+    do
+      if [ -f $movethis ]; then
+        mv ${environmentname}/${movethis} ${environmentname}/.home-localdev/
+      fi
+    done
+  mkdir -p ${environmentname}/.home-localdev/bin
+  mv ${environmentname}/.git-prompt.sh ${environmentname}/.home-localdev/bin/
   echo -e ""
   echo -e "${yellow}>>>${NC} Next I will set as needed the owner, group and permissions on files and folders."
   echo -e "${yellow}>>>${NC} You will be asked for your sudo password unless you have recently used it."
