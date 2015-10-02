@@ -203,6 +203,7 @@ createandpermissionfolders(){
 # Configure the  docker-compose.yml with the development environment name by replacing the phrase localdevmeos in 2 places.
 replacelocaldevmeos(){
   sed -i s/localdevmeos/${environmentname}/ ${environmentname}/docker-compose.yml
+  sed -i s/localdevmeos/${environmentname}/  ${environmentname}/.home-localdev/.drush/${environmentname}.aliases.drushrc.php
 }
 finished(){
   echo ""
