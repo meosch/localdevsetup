@@ -177,7 +177,7 @@ createandpermissionfolders(){
   mv ${environmentname}/localdevmeos.aliases.drushrc.php ${environmentname}/.home-localdev/.drush/${environmentname}.aliases.drushrc.php
   # Move and rename the drush aliases file template for the new environment for the docker host, but not if it already exists.
   mv -n ${environmentname}/host.aliases.drushrc.php ~/.drush/${environmentname}.aliases.drushrc.php
-  # Move our bash environment configuration files in to our artifical $HOME directory.
+  # Move our bash environment configuration files in to our artificial $HOME directory.
   for movethis in ".bash_aliases" ".bashrc" ".drush.bashrc" ".profile"
     do
       if [ -f ${environmentname}/$movethis ]; then
