@@ -178,7 +178,7 @@ createandpermissionfolders(){
   # Move and rename the drush aliases file template for the new environment for the docker host, but not if it already exists.
   mv -n ${environmentname}/host.aliases.drushrc.php ~/.drush/${environmentname}.aliases.drushrc.php
   # Rename the drush aliases file template for use with other Docker containers.
-  mv -n ${environmentname}/localdevmeos-docker_add_on.aliases.drushrc.php ${environmentname}/${environmentname}-docker_add_on.aliases.drushrc.php
+  mv -n ${environmentname}/docker_add_on_localdevmeos.aliases.drushrc.php ${environmentname}/${environmentname}-docker_add_on.aliases.drushrc.php
   # Move our bash environment configuration files in to our artificial $HOME directory.
   for movethis in ".bash_aliases" ".bashrc" ".drush.bashrc" ".profile"
     do
@@ -204,7 +204,7 @@ createandpermissionfolders(){
 }
 # Configure the  docker-compose.yml with the development environment name by replacing the phrase localdevmeos in a number of places.
 replacelocaldevmeos(){
-  sed -i s/localdevmeos/${environmentname}/ ${environmentname}/docker-compose-all_containers.yml
+  sed -i s/localdevmeos/${environmentname}/ ${environmentname}/docker-compose_all_containers.yml
   sed -i s/localdevmeos/${environmentname}/ ${environmentname}/docker-compose_add_on_site.yml
   sed -i s/localdevmeos/${environmentname}/  ${environmentname}/.home-localdev/.drush/${environmentname}.aliases.drushrc.php
   sed -i s/localdevmeos/${environmentname}/  ${environmentname}/${environmentname}-docker_add_on.aliases.drushrc.php
