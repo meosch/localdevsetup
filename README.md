@@ -44,7 +44,7 @@ Setting up a new environment becomes as easy as running the following commands
     cd hamburger/
     drush dl drupal -y --drupal-project-rename=public_html
     dsh up
-Then in your browser go to [hamburger.docker](http://hamburger.docker "hamburger local development environment")
+Then in your browser go to [hamburger.docker/](http://hamburger.docker/ "hamburger local development environment") If typing this in manually make sure to include the trailing slash (/) as without it or a preceeding http:// the browser will do a search for hamburger.dock instead of a dns lookup. 
 
 I am using this with parts of [Drude (**Dru**pal **D**ocker **E**nvironment)](https://github.com/blinkreaction/drude "Drude GitHub Project") which is a Docker and Docker Compose based environment for Drupal. 
 
