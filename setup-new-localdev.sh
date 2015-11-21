@@ -208,6 +208,8 @@ replacelocaldevmeos(){
   sed -i s/localdevmeos/${environmentname}/ ${environmentname}/docker-compose_add_on_site.yml
   sed -i s/localdevmeos/${environmentname}/  ${environmentname}/.home-localdev/.drush/${environmentname}.aliases.drushrc.php
   sed -i s/localdevmeos/${environmentname}/  ${environmentname}/${environmentname}-docker_add_on.aliases.drushrc.php
+  sed -i s/localdevmeos/${environmentname}/  ${environmentname}/docker-gen.conf
+  
 }
 finished(){
   echo ""
