@@ -2,7 +2,7 @@
 Bash script to setup a local development environment to work on a Drupal website using docker containers on Ubuntu Linux.
 
 ## Setup dnsmasq on Ubuntu
-See the documentation file, [dnsmasq_with_network-manager_for_docker.md](https://github.com/meosch/docker-gen/raw/master/dnsmasq-configuration/dnsmasq_with_network-manager_for_docker.md) on the [meosch/docker-gen](https://github.com/meosch/docker-gen) project for information on how to setup dnsmasq on Ubuntu to redirect all ***.docker/** addresses to the containers and to allow you to ssh from the host computer to containers and in between containers.
+See the documentation file, [dnsmasq_with_network-manager_for_docker.md](https://github.com/meosch/docker-gen/blob/master/dnsmasq-configuration/dnsmasq_with_network-manager_for_docker.md) on the [meosch/docker-gen](https://github.com/meosch/docker-gen) project for information on how to setup dnsmasq on Ubuntu to redirect all ***.docker/** addresses to the containers and to allow you to ssh from the host computer to containers and in between containers.
 
 
 ## Installation
