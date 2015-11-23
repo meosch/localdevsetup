@@ -1,31 +1,9 @@
 # localdevsetup
 Bash script to setup a local development environment to work on a Drupal website using docker containers on Ubuntu Linux.
 
-## Setup dnsmasq on Ubuntu to redirect all *.docker/ addresses to the containers
-Create the file /etc/dnsmasq.d/docker with the following line:
+## Setup dnsmasq on Ubuntu
+See the documentation file, [dnsmasq_with_network-manager_for_docker.md](https://github.com/meosch/docker-gen/raw/master/dnsmasq-configuration/dnsmasq_with_network-manager_for_docker.md) on the [meosch/docker-gen](https://github.com/meosch/docker-gen) project for information on how to setup dnsmasq on Ubuntu to redirect all ***.docker/** addresses to the containers and to allow you to ssh from the host computer to containers and in between containers.
 
-	address=/.docker/172.17.42.1
-	
-172.17.42.1 seems to be the default ip address that the **docker0** network interface will attach to, if it is not in use. If the Docker daemon is running you can check the ip address of the **docker0** interface by running:
-
-	ip addr show dev docker0 | awk -F'[ /]*' '/inet /{print $3}'  
-[\(from **Using dnsmasq to link Docker containers** \)](https://blog.amartynov.ru/archives/dnsmasq-docker-service-discovery/ "Using dnsmasq to link Docker containers")
-
-Then restart dnsmasq with:
-	sudo service dnsmasq restart
-	
-If you find that after a reboot that dnsmasq is not running it maybe due to an issue with the default NetworkManager dnsmasq configuration file. You will notice that you cannot reach your development environment in the browser. Run the following to check if dnsmasq is running.
-
-	ps -A |grep dnsmasq
-
-If dnsmasq fails to start at boot check configuration files in /etc/dnsmasq/  and make sure that there are not any "**bind-interfaces**" these should be "**bind-dynamic**".  More info: https://bugs.launchpad.net/ubuntu/+source/dnsmasq/+bug/1027808/comments/6
-
-I found that I had to change the line in /etc/dnsmasq.d/network-manager:
-
-	bind-interfaces
-to
-	bind-dynamic
-however, this file states, "WARNING: changes to this file will get lost if network-manager is removed." YMMV
 
 ## Installation
 Place the script setup-new-localdev.sh in the folder where you want to make subfolders for projects and run. You can clone the project with:
