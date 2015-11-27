@@ -127,7 +127,7 @@ response=${response,,}    # tolower
 # Usage:
 #  run_sudo_command [COMMANDS...] -FJH 2010.03.17
 run_sudo_command() {
-# grab the commands passed to the function and put theme in a variable for safe keeping
+# grab the commands passed to the function and put them in a variable for safe keeping
 echo -en "${red}"
 sudocommand=$*
 sudo $sudocommand
