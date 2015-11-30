@@ -134,9 +134,10 @@ sudo $sudocommand
 # Check the exit status if it is not 0 (good) then assume that the password was not entered correctly and loop them till they get it right or cancel the running of this script.
 echo -en "${NC}"
 while [ ! $? = 0 ]; do
-# FIXME Get rid of the zenity command so that we do not have that dependence.
-zenity --question --title='Local Development Environment Setup - Attention Needed!' --text="Something is not right here. (Did you correctly enter your password? Is the Caps-Locks on?) Do you want to try to enter the password again(Yes) or exit this script(No)?"
-	if [ ! $? = 0 ]; then
+echo -e -n "${yellow}>>>${NC} Something is not right here. (Did you correctly enter your password? Is the Caps-Locks on?) Do you want to try to enter the password again${green}(Yes)${NC} or exit this script${red}(No)${NC}?"
+  read -r response
+response=${response,,}    # tolower
+  if [[ $response !=  "y" && $response != "Y"  && $response != "yes" && $response != "Yes" ]]; then
     echo -e "${yellow}>>>${NC} ${red}Exiting! User aborted the script!${NC}"
 		exit
 		else
