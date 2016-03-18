@@ -98,20 +98,8 @@ switchdirctoryifgiven(){
     cd $environmentname
   fi
 }
-notwhatyouwanted(){
-echo -e "${yellow}>>>${NC} If this is not what you want you can now abort this script. Continue?[${green}Y${NC}/${red}n${NC}]"
-#pause
-  read -r response
-response=${response,,}    # tolower
-  if [ -z $response ]; then
-    response=yes
-  fi
-  if [[ $response !=  "y" && $response != "Y"  && $response != "yes" && $response != "Yes" ]]; then
-     echo -e "${red}User aborted script! Now exiting!${NC}"
-    exit
-  fi
-}
 createyesno(){
+  echo -e "${yellow}>>>${NC} If this is not what you want you can now abort this script.${NC}"
   echo -e -n "${yellow}>>>${NC} Should I create a new local development environment named, ${yellow}${environmentname}${NC}? [${red}y${NC}/${green}N${NC}] "
   read -r response
 response=${response,,}    # tolower
@@ -224,6 +212,8 @@ finished(){
   echo ""
   echo -e "${yellow}>>>${NC} All done setting up the new local development environment ${yellow}$environmentname${NC}."
   echo -e "${yellow}>>>${NC} ${green}Have fun ${yellow}storming${green} the ${red}castle!${NC}"
+  echo -e "To start your new environment run: ${yellow}cd ${environmentname}${NC} then ${yellow}dsh up${NC}."
+  echo -e "${red}NOTE:${yellow}It can take around ~40 seconds before DNS knows about your containers and you can access it without ${yellow}dsh${NC}."
 }
 setitup(){
   downloadfiles
@@ -240,7 +230,6 @@ switchdirctoryifgiven
 setitup
 else
 informuser
-notwhatyouwanted
 askforenvironmentname
 doesenvironmentexist
 switchdirctoryifgiven
