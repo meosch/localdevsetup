@@ -189,7 +189,14 @@ createandpermissionfolders(){
     done
   mkdir -p ${environmentname}/.home-localdev/bin
   mv ${environmentname}/.git-prompt.sh ${environmentname}/.home-localdev/bin/
-  cp ./authorized_keys ${environmentname}/.home-localdev/.ssh/
+  if [ -f ./authorized_keys ]; then
+    mkdir -p ${environmentname}/.home-localdev/.ssh
+    cp ./authorized_keys ${environmentname}/.home-localdev/.ssh/
+  else
+    echo -e "${yellow}A file called ${red}authorized_keys${yellow} was not found in this folder.${NC}"
+    echo -e "For passwordless login to this container using a drush alias, such as, ${yellow}@docker.localdev${NC}"
+    echo -e "you will need to copy your public key to ${yellow}${environmentname}/.home-localdev/.ssh/authorized_keys${NC}."
+  fi
   echo -e ""
   echo -e "${yellow}>>>${NC} Next I will set as needed the owner, group and permissions on files and folders."
   echo -e "${yellow}>>>${NC} You will be asked for your sudo password unless you have recently used it."
