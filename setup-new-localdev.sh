@@ -157,10 +157,11 @@ downloadfiles(){
       exiting
     fi
 }  
-# Create needed folders, public_html and then set owner and group, plus appropriate permissions.
+# Create needed folders and then set owner and group, plus appropriate permissions.
 createandpermissionfolders(){
   mkdir ${environmentname}/${webroot}
   mkdir ${environmentname}/mysqldata
+  mkdir ${environmentname}/private
   mkdir -p ${environmentname}/.home-localdev/.drush
   # Move and rename local development environment drush aliases template file for the new environment.
   mv ${environmentname}/localdevmeos.aliases.drushrc.php ${environmentname}/.home-localdev/.drush/${environmentname}.aliases.drushrc.php
@@ -197,6 +198,10 @@ createandpermissionfolders(){
   run_sudo_command chmod -R g+w ${environmentname}/${webroot}
 # Set the group sticky bit so that any new files or folders in the webroot belong to the group www-data set above.
   run_sudo_command chmod g+s -R ${environmentname}/${webroot}
+# Give the www-data group write permissions for the private files folder.
+  run_sudo_command chmod -R g+w ${environmentname}/private
+# Set the group sticky bit so that any new files or folders in the private files folder belong to the group www-data set above.
+  run_sudo_command chmod g+s -R ${environmentname}/private
 
 }
 # Configure the  docker-compose.yml with the development environment name by replacing the phrase localdevmeos in a number of places.
