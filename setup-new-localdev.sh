@@ -163,10 +163,8 @@ createandpermissionfolders(){
   mkdir ${environmentname}/mysqldata
   mkdir ${environmentname}/private
   mkdir -p ${environmentname}/.home-localdev/.drush
-  # Move and rename local development environment drush aliases template file for the new environment.
-  mv ${environmentname}/localdevmeos.aliases.drushrc.php ${environmentname}/.home-localdev/.drush/${environmentname}.aliases.drushrc.php
-  # Move and rename the drush aliases file template for the new environment for the docker host, but not if it already exists.
-  mv -n ${environmentname}/host.aliases.drushrc.php ~/.drush/${environmentname}.aliases.drushrc.php
+# Move and rename the drush aliases file template for the new environment for the docker host, but not if it already exists.
+  mv -n ${environmentname}/localdevmeos.aliases.drushrc.php ~/.drush/${environmentname}.aliases.drushrc.php
   # Rename the drush aliases file template for use with other Docker containers.
   mv -n ${environmentname}/docker_add_on_localdevmeos.aliases.drushrc.php ${environmentname}/${environmentname}-docker_add_on.aliases.drushrc.php
   # Move our bash environment configuration files in to our artificial $HOME directory.
