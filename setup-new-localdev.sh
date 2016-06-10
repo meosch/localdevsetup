@@ -164,7 +164,7 @@ createandpermissionfolders(){
   mkdir ${environmentname}/private
   mkdir -p ${environmentname}/.home-localdev/.drush
   # Move and rename local development environment drush aliases template file for the new environment.
-  mv ${environmentname}/localdevmeos.aliases.drushrc.php ${environmentname}/.home-localdev/.drush/${environmentname}.aliases.drushrc.php
+#  mv ${environmentname}/localdevmeos.aliases.drushrc.php ${environmentname}/.home-localdev/.drush/${environmentname}.aliases.drushrc.php
   # Move and rename the drush aliases file template for the new environment for the docker host, but not if it already exists.
   mv -n ${environmentname}/host.aliases.drushrc.php ~/.drush/${environmentname}.aliases.drushrc.php
   # Move and rename local docker @parent development environment drush aliases template file for the new environment, but not if it already exists.
@@ -212,7 +212,8 @@ createandpermissionfolders(){
 replacelocaldevmeos(){
   sed -i s/localdevmeos/${environmentname}/ ${environmentname}/docker-compose_all_containers.yml
   sed -i s/localdevmeos/${environmentname}/ ${environmentname}/docker-compose_add_on_site.yml
-  sed -i s/localdevmeos/${environmentname}/  ${environmentname}/.home-localdev/.drush/${environmentname}.aliases.drushrc.php
+#  sed -i s/localdevmeos/${environmentname}/  ${environmentname}/.home-localdev/.drush/${environmentname}.aliases.drushrc.php
+  sed -i s/localdevmeos/${environmentname}/ ~/.drush/${environmentname}.aliases.drushrc.php
   sed -i s/localdevmeos/${environmentname}/  ${environmentname}/${environmentname}-docker_add_on.aliases.drushrc.php
   sed -i s/localdevmeos/${environmentname}/  ${environmentname}/docker-gen.conf
   
