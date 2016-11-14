@@ -14,6 +14,7 @@ You can specify the name of the new environment on the command line or you will 
 
     setup-new-localdev.sh
 or
+
     setup-new-localdev.sh  nameof new project
     
 Setting up a new environment becomes as easy as running the following commands
