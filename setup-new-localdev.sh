@@ -3,8 +3,8 @@
 PS4=':${LINENO} + '
 #set -x
 # What is our webroot folder called?  docroot? httpdocs? public_html?
-webroot="public_html"
-# FIXME Add commandline option to specify the name of the webroot folder
+webroot="project/docroot"
+# FIXME Add command line option to specify the name of the webroot folder
 # END CONFIGURATION #############################
 # set yes to no ;)
 yes=0
@@ -159,7 +159,7 @@ downloadfiles(){
 }  
 # Create needed folders and then set owner and group, plus appropriate permissions.
 createandpermissionfolders(){
-  mkdir ${environmentname}/${webroot}
+  mkdir -p ${environmentname}/${webroot}
   mkdir ${environmentname}/mysqldata
   mkdir ${environmentname}/private
   mkdir -p ${environmentname}/.home-localdev/.drush
