@@ -39,3 +39,6 @@ To install [dsh](#dsh) run:
     sudo curl -L https://raw.githubusercontent.com/meosch/dsh/master/dsh -o /usr/local/bin/dsh
     sudo chmod +x /usr/local/bin/dsh
 
+
+### Upgrading
+Older versions of this script defaulted the webroot created to **public_html**. The current version uses **project/docroot** to be similar to the Drupal composer project defaults.
