@@ -36,7 +36,6 @@ The Drude is more aimed at Windows and Mac OSes as that is what Blink Reaction i
 
 To install [dsh](#dsh) run:
 
-    sudo curl -L https://raw.githubusercontent.com/blinkreaction/drude/master/bin/dsh -o /usr/local/bin/dsh
+    sudo curl -L https://raw.githubusercontent.com/meosch/dsh/master/dsh -o /usr/local/bin/dsh
     sudo chmod +x /usr/local/bin/dsh
-
 
